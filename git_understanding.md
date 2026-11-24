@@ -2,4 +2,4 @@
 
 ## Merge Conflicts and Conflict Resolution
 
-Practice note: Ready to try a merge.
+Practice note: Both branches edited the same line.
