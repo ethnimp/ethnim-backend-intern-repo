@@ -6,15 +6,17 @@ This comparison is based on the apps’ official feature guides and my earlier l
 
 | App | Main strengths | When I’d choose it |
 | --- | --- | --- |
-| **Focus Bear** | Guided habits, timed focus sessions, and app and website blocking in one app. [Focus Bear features](https://www.focusbear.io/features) | I want help getting through a morning routine and staying focused when I start work. |
+| **Focus Bear** | Guided habits, timed focus sessions, and app and website blocking, with optional AI distraction checks. [Focus Bear features](https://www.focusbear.io/features) · [AI features](https://www.focusbear.io/ai-privacy-policy) | I want help getting through a morning routine and staying focused when I start work. |
 | **Freedom** | Custom and preset blocklists, recurring schedules, and control over which devices join each session. [Freedom features](https://freedom.to/features) | My main goal is to keep distractions off my laptop and phone during the same work block. |
 | **Cold Turkey** | Desktop app and website blocking, with several ways to lock an active block. [Cold Turkey features](https://getcoldturkey.com/features/) | I want a firm desktop block because I often turn off softer limits. |
-| **Tiimo** | A visual daily planner with calendar planning, to-dos, reminders and a focus timer. [Tiimo product FAQ](https://www.tiimoapp.com/faq) | I need to see what’s next and manage transitions between tasks. |
+| **Tiimo** | A visual daily planner with reminders, a focus timer, and an AI Co-planner that breaks down tasks and estimates how long they’ll take. [Tiimo product FAQ](https://www.tiimoapp.com/faq) · [Tiimo AI planning](https://www.tiimoapp.com/product/ai-planning) | I need to see what’s next and manage transitions between tasks. |
 | **Routinery** | A step-by-step routine timer with options like auto-advance. [Routinery timer guide](https://blog.routinery.app/timer-guide) | I mainly want a timer that walks me through a repeatable routine. |
 
 ## What makes Focus Bear different?
 
 Focus Bear can actively block distractions while guiding me through a habit or a focus session. For example, I could use it to follow a morning routine step by step, then start a study session with a block list suited to that work. Routinery also guides routines, and Freedom also blocks distractions across devices. Focus Bear makes both part of the same workflow. [Focus Bear features](https://www.focusbear.io/features) · [Focus Bear block list guide](https://support.focusbear.io/portal/en/kb/articles/customizing-your-block-list-in-focus-bear)
+
+Optional AI distraction checks are another plus. Focus Bear can use my current task or focus goal to judge whether a site or app is relevant. A coding tutorial could be useful during a study session even if other videos would be distracting. Focus Bear can also break a broad task into smaller steps, giving me a concrete place to start. [Focus Bear AI features](https://www.focusbear.io/ai-privacy-policy)
 
 ## Why would I choose Focus Bear?
 
