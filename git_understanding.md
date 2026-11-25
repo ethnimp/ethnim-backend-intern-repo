@@ -65,3 +65,16 @@ If a timer worked in the previous release and started ending at the wrong time i
 ### How does it compare to manually reviewing commits?
 
 For a long history, bisect can save time because I can test a few commits and use the results to rule out whole ranges. The broken behavior also gives me a better clue than a broad commit title such as `Adjust duration calculation`. For a short history, scanning the diffs may be quicker. Bisect is most useful when the same check gives a reliable result on older versions.
+
+## Practising Git Commands in the Onboarding Repo
+
+### What does each command do, and when would I use it?
+
+- **`git checkout main -- <file>`** copies one file from local `main` into the working tree and staging area. I staged a temporary change to `README.md`, then ran `git checkout main -- README.md`. The README returned to the version on `main` in both places, and my separate edit to `git_knowledge.md` was still there. I’d use this to bring a file on my feature branch back in line with `main` while keeping my other edits. I’d check the file’s diff first because the command overwrites local changes to that file.
+- **`git cherry-pick <commit>`** applies the changes from a selected commit and records a new commit on the current branch. I made two commits on `git-command-practice` and cherry-picked the reflection commit onto `main`. Only the reflection reached `main`. In a team project, I’d use this to bring a small bug fix onto a release branch while the rest of the feature stays in development.
+- **`git log`** shows the commit history. I ran `git log --oneline -- git_understanding.md` to see the commits that built up this file, including the merge-conflict, pull-request, and bisect reflections. On a shared project, I’d use it to see when a file changed and pick a commit to inspect with `git show`.
+- **`git blame <file>`** shows the commit, author, and date associated with the last change to each line. I used `git blame -L 33,35 -- git_understanding.md` and traced the pull-request heading back to `54f607e`. In a team project, I’d use it to find the commit behind a line I don’t understand, then read the commit or its pull request for context.
+
+### What surprised me while testing these commands?
+
+I expected checkout to affect the working copy. It also replaced the staged README edit, which matters if I’ve already prepared part of a commit. I also saw that cherry-picking gave the reflection a different commit ID on `main` even though it applied the same change. Comparing the diffs made it clear that the patch was the same and the new commit had a different parent.
