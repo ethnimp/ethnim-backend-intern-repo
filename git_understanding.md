@@ -8,6 +8,10 @@ A good subject uses a short action phrase and names the change. If the reason ma
 
 In the Node.js history, `fs: report EROFS from recursive mkdir()` (`a055d9f`) names the affected area, the operation and the error. The body explains that the old code could report a missing path when the real problem was a read-only file system. It also explains what the test checks. The subject `doc: fix typos in documentation` (`808904f`) gives me the general category, but I’d have to open the diff to find out which docs changed. For a small typo fix, naming the affected page would be enough.
 
+### How does a clear commit message help in team collaboration?
+
+A clear subject lets a teammate scan `git log --oneline` and open the commit that relates to their work. If the body explains why the behavior changed or how it was tested, reviewers have more context for checking the diff. That’s useful when someone comes back to the change later and the original author is busy or has moved on.
+
 ## Merge Conflicts and Conflict Resolution
 
 ### What caused the conflict?
