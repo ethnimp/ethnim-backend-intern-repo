@@ -44,3 +44,33 @@ def total_completed_minutes(sessions):
 The function name describes the result, and `session` and `total_minutes` explain the values. Iterating over each session directly removes the index lookups. Adding the minutes as each completed session is found also removes the temporary list and the second loop. The completion rule and the calculation now sit together.
 
 I ran both versions with a 25-minute completed session, a 10-minute incomplete session, and a 5-minute completed session. Both returned 30. I also checked empty lists, lists with only incomplete sessions, and lists with only completed sessions.
+
+## Naming Variables and Functions
+
+### What makes a good name?
+
+A variable name should tell me what the value represents. For durations, I include the unit when it matters, as in `elapsed_seconds`. A function name should describe its action or the question it answers. `has_reached_focus_goal` makes it clear that the result is true or false. In Python I use lowercase words separated by underscores and follow the project’s naming conventions.
+
+### What issues can unclear names cause?
+
+Names like `a` and `b` hide the difference between a target in minutes and elapsed time in seconds. A caller could swap the arguments or pass minutes for both. The arithmetic would still run and could report the wrong result without raising an error.
+
+### Before renaming
+
+```python
+def check(a, b):
+    c = a * 60
+    return b >= c
+```
+
+### After renaming
+
+```python
+def has_reached_focus_goal(goal_minutes, elapsed_seconds):
+    goal_seconds = goal_minutes * 60
+    return elapsed_seconds >= goal_seconds
+```
+
+### How did refactoring improve readability?
+
+The new names make the conversion easy to follow. The function converts the goal to seconds and checks whether the elapsed time has reached it. A call like `has_reached_focus_goal(goal_minutes=25, elapsed_seconds=1500)` makes the inputs clear at the call site too. I checked both versions just below, exactly at, and above the 25-minute goal. Both returned `False`, `True`, and `True` respectively.
