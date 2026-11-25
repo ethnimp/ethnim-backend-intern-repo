@@ -1,5 +1,13 @@
 # Git Understanding
 
+## Writing Meaningful Commit Messages
+
+### What makes a good commit message?
+
+A good subject uses a short action phrase and names the change. If the reason matters and isn’t clear from the subject, I’d leave a blank line and explain it in the body. Each commit should have one clear purpose so that its message describes the whole change.
+
+In the Node.js history, `fs: report EROFS from recursive mkdir()` (`a055d9f`) names the affected area, the operation and the error. The body explains that the old code could report a missing path when the real problem was a read-only file system. It also explains what the test checks. The subject `doc: fix typos in documentation` (`808904f`) gives me the general category, but I’d have to open the diff to find out which docs changed. For a small typo fix, naming the affected page would be enough.
+
 ## Merge Conflicts and Conflict Resolution
 
 ### What caused the conflict?
