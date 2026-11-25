@@ -78,3 +78,19 @@ For a long history, bisect can save time because I can test a few commits and us
 ### What surprised me while testing these commands?
 
 I expected checkout to affect the working copy. It also replaced the staged README edit, which matters if I’ve already prepared part of a commit. I also saw that cherry-picking gave the reflection a different commit ID on `main` even though it applied the same change. Comparing the diffs made it clear that the patch was the same and the new commit had a different parent.
+
+## Branching and Team Collaboration
+
+I created `branching-practice` from `main` in GitHub Desktop and committed this section to the new branch. I switched back to `main` and confirmed the section was absent there. Each branch pointed to its own version of the file.
+
+### Why is pushing directly to `main` problematic?
+
+`main` is the version other developers rely on. A direct push can put a change there before teammates review it and before checks pass. If the change breaks a shared workflow, it can affect everyone who pulls it. It may also trigger a deployment if the project deploys from `main`. I’d use a feature branch and let the team review and test the change in a pull request before merging it.
+
+### How do branches help with reviewing code?
+
+A branch gives the pull request a focused set of changes to compare with `main`. Reviewers can comment on specific lines and see the results of automated checks. I can respond to feedback by committing updates to the same branch, and reviewers can see those updates in the same pull request. Other developers can keep working while the review is in progress.
+
+### What happens if two people edit the same file on different branches?
+
+Git can usually merge edits to separate parts of the same file automatically. Even then, I’d run the relevant tests after merging because changes in different places can still affect each other. If the edits overlap and Git can’t combine them, it pauses the merge and marks a conflict. I’d compare the two versions, check the intent with the other developer, and test the resolved file before completing the merge.
