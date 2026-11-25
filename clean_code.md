@@ -145,3 +145,60 @@ I can test whether incomplete sessions are excluded by checking the totals direc
 ### How did refactoring improve the structure?
 
 `build_weekly_summary` now reads in the order the work happens. It gets the totals, gets the goal message, and assembles the summary. The counting rule has its own function, and the goal message only needs the completed minutes and the goal. I ran both versions with no sessions, incomplete sessions, and totals below, exactly at, and above the goal. Their summaries matched in every case.
+
+## Avoiding Code Duplication
+
+Don't Repeat Yourself (DRY) means keeping a shared rule in one place so that every caller uses the same version. I found a repeated rule in two of the Python examples above. The total-minutes function and the weekly summary both check whether a session is completed before adding its minutes.
+
+### Before refactoring
+
+```python
+def total_completed_minutes(sessions):
+    total_minutes = 0
+
+    for session in sessions:
+        if session["completed"]:
+            total_minutes += session["minutes"]
+
+    return total_minutes
+
+
+def summarize_completed_sessions(sessions):
+    completed_count = 0
+    completed_minutes = 0
+
+    for session in sessions:
+        if session["completed"]:
+            completed_count += 1
+            completed_minutes += session["minutes"]
+
+    return completed_count, completed_minutes
+```
+
+### After refactoring
+
+```python
+def summarize_completed_sessions(sessions):
+    completed_count = 0
+    completed_minutes = 0
+
+    for session in sessions:
+        if session["completed"]:
+            completed_count += 1
+            completed_minutes += session["minutes"]
+
+    return completed_count, completed_minutes
+
+
+def total_completed_minutes(sessions):
+    _, completed_minutes = summarize_completed_sessions(sessions)
+    return completed_minutes
+```
+
+### What were the issues with duplicated code?
+
+If I changed which sessions count in just one function, the total-minutes result and the weekly summary could disagree for the same sessions. For example, if the app starts letting people exclude practice sessions from their totals, both callers would need to apply that rule.
+
+### How did refactoring improve maintainability?
+
+Both callers now get their totals from `summarize_completed_sessions`, so I can update and test the inclusion rule in one place. The total-minutes function still returns a number, and the weekly summary still gets both the count and the minutes. I checked both versions with empty lists, mixed sessions, and sessions that were all complete or all incomplete. The results matched.
