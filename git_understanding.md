@@ -12,6 +12,10 @@ In the Node.js history, `fs: report EROFS from recursive mkdir()` (`a055d9f`) na
 
 A clear subject lets a teammate scan `git log --oneline` and open the commit that relates to their work. If the body explains why the behavior changed or how it was tested, reviewers have more context for checking the diff. That’s useful when someone comes back to the change later and the original author is busy or has moved on.
 
+### How can poor commit messages cause issues later?
+
+If several commits say `fixed stuff`, I have to open each diff to work out which one introduced a regression. That slows down debugging and makes it easier to revert the wrong change. The long subject in this exercise also took longer to scan because it included details about where I placed a paragraph. `Explain the cost of vague commit messages` is easier to pick out in the log and leaves room for a short explanation in the body.
+
 ## Merge Conflicts and Conflict Resolution
 
 ### What caused the conflict?
