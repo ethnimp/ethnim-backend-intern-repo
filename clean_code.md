@@ -74,3 +74,74 @@ def has_reached_focus_goal(goal_minutes, elapsed_seconds):
 ### How did refactoring improve readability?
 
 The new names make the conversion easy to follow. The function converts the goal to seconds and checks whether the elapsed time has reached it. A call like `has_reached_focus_goal(goal_minutes=25, elapsed_seconds=1500)` makes the inputs clear at the call site too. I checked both versions just below, exactly at, and above the 25-minute goal. Both returned `False`, `True`, and `True` respectively.
+
+## Small, Single-Purpose Functions
+
+I look for distinct jobs that I can name and test on their own. Each function should take the inputs it needs and return a clear result. I keep a sequence of related steps together when splitting it would make the logic harder to follow.
+
+### Before refactoring
+
+This function takes the sessions for a week and a goal in minutes. It counts completed sessions, totals their minutes, and formats a summary with a goal message.
+
+```python
+def build_weekly_summary(sessions, goal_minutes):
+    completed_count = 0
+    completed_minutes = 0
+
+    for session in sessions:
+        if session["completed"]:
+            completed_count += 1
+            completed_minutes += session["minutes"]
+
+    remaining_minutes = goal_minutes - completed_minutes
+    if remaining_minutes > 0:
+        goal_message = f"{remaining_minutes} min to go."
+    else:
+        goal_message = "Weekly goal reached."
+
+    return (
+        f"Completed sessions: {completed_count}. "
+        f"Focus time: {completed_minutes} min. {goal_message}"
+    )
+```
+
+### After refactoring
+
+```python
+def summarize_completed_sessions(sessions):
+    completed_count = 0
+    completed_minutes = 0
+
+    for session in sessions:
+        if session["completed"]:
+            completed_count += 1
+            completed_minutes += session["minutes"]
+
+    return completed_count, completed_minutes
+
+
+def describe_goal_progress(completed_minutes, goal_minutes):
+    remaining_minutes = goal_minutes - completed_minutes
+    if remaining_minutes > 0:
+        return f"{remaining_minutes} min to go."
+
+    return "Weekly goal reached."
+
+
+def build_weekly_summary(sessions, goal_minutes):
+    completed_count, completed_minutes = summarize_completed_sessions(sessions)
+    goal_message = describe_goal_progress(completed_minutes, goal_minutes)
+
+    return (
+        f"Completed sessions: {completed_count}. "
+        f"Focus time: {completed_minutes} min. {goal_message}"
+    )
+```
+
+### Why is breaking down functions beneficial?
+
+I can test whether incomplete sessions are excluded by checking the totals directly. I can also test the goal message by passing in a pair of numbers. That makes it easier to tell which rule failed and where to make a change.
+
+### How did refactoring improve the structure?
+
+`build_weekly_summary` now reads in the order the work happens. It gets the totals, gets the goal message, and assembles the summary. The counting rule has its own function, and the goal message only needs the completed minutes and the goal. I ran both versions with no sessions, incomplete sessions, and totals below, exactly at, and above the goal. Their summaries matched in every case.
