@@ -202,3 +202,47 @@ If I changed which sessions count in just one function, the total-minutes result
 ### How did refactoring improve maintainability?
 
 Both callers now get their totals from `summarize_completed_sessions`, so I can update and test the inclusion rule in one place. The total-minutes function still returns a number, and the weekly summary still gets both the count and the minutes. I checked both versions with empty lists, mixed sessions, and sessions that were all complete or all incomplete. The results matched.
+
+## Commenting and Documentation
+
+I used the total-minutes function from the first example to compare comments that repeat the code with comments that explain the app's rules.
+
+### Before rewriting the comments
+
+```python
+def total_completed_minutes(sessions):
+    total_minutes = 0  # Start at zero.
+
+    for session in sessions:  # Loop over the sessions.
+        if session["completed"]:
+            total_minutes += session["minutes"]  # Add the minutes.
+
+    return total_minutes  # Return the total.
+```
+
+### After rewriting the comments
+
+```python
+def total_completed_minutes(sessions):
+    """Return the total minutes credited for completed focus sessions.
+
+    Each session has a boolean "completed" flag and a "minutes" duration.
+    """
+    total_minutes = 0
+
+    for session in sessions:
+        # An in-progress session can already have minutes recorded.
+        # Credit those minutes toward the goal only after completion.
+        if session["completed"]:
+            total_minutes += session["minutes"]
+
+    return total_minutes
+```
+
+### When should I add comments?
+
+I’d add a comment when the reason for a choice is easy to miss, such as why a session with recorded minutes still gets excluded. A docstring helps callers when they need to know what inputs a function accepts, what it returns, or what exceptions to expect. I’d update the explanation along with the code when that behaviour changes.
+
+### When should I improve the code instead?
+
+If I’m explaining what a variable holds or narrating a simple line, I’d first see whether a clearer name or a simpler expression can do the job. The name `total_minutes` and the line `return total_minutes` already explain the result. Removing the repeated comments makes the rule about in-progress sessions easier to spot.
