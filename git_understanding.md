@@ -45,3 +45,23 @@ A good PR has a specific title, a description that explains what changed and why
 Prettier PR `prettier/prettier#20557` fixed missing semicolons after class properties marked with `prettier-ignore`. In an inline comment, the reviewer flagged missing test cases and asked the author to reuse a shared list of class property types. The author pushed commits that reused the list and added tests. The reviewer later approved the PR, and it was merged.
 
 I learned that specific feedback gives the author a clear next step and makes the revision easier to review. The added tests also gave the team a way to check that the fix covered cases the first version missed. In my own PRs, I’d explain which cases I tested and reply to review comments with what changed.
+
+## Finding a Regression with Git Bisect
+
+### What does `git bisect` do?
+
+`git bisect` uses binary search to find the first commit where a bug appears. I give it an older commit where the behavior works and a newer commit where it fails. Git checks out a commit between them, and each test result narrows the range. I can mark the results manually with `git bisect good` and `git bisect bad`, or let `git bisect run` repeat a test for me.
+
+### What happened in the practice exercise?
+
+The test repo had six commits for a small focus timer script. A 25-minute session should return 1,500 seconds. One commit changed the multiplier from 60 to 100, so the script returned 2,500 seconds. The later commits only updated the README, so the bug was still present at the tip of the branch.
+
+In the terminal, I ran `git bisect start 247d8e0 fe48a3b` with the known bad commit first and the known good commit second. Then I used `git bisect run sh -c 'test "$(sh focus_timer.sh 25)" -eq 1500'` to check the selected versions. Git tested three commits and identified `d295b33` (`Adjust duration calculation`) as the first bad commit. Its parent returned 1,500 seconds, and its diff showed the changed multiplier. I ran `git bisect reset` to return to the original branch.
+
+### When would I use it in real-world debugging?
+
+If a timer worked in the previous release and started ending at the wrong time in the current release, I’d use those two releases as the starting points. I’d make a repeatable check for the timer duration and run it at the commits Git picks. Once Git finds the first failing commit, I’d inspect its diff to understand what changed and write a regression test for the fix.
+
+### How does it compare to manually reviewing commits?
+
+For a long history, bisect can save time because I can test a few commits and use the results to rule out whole ranges. The broken behavior also gives me a better clue than a broad commit title such as `Adjust duration calculation`. For a short history, scanning the diffs may be quicker. Bisect is most useful when the same check gives a reliable result on older versions.
