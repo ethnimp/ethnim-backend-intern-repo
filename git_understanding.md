@@ -94,3 +94,19 @@ A branch gives the pull request a focused set of changes to compare with `main`.
 ### What happens if two people edit the same file on different branches?
 
 Git can usually merge edits to separate parts of the same file automatically. Even then, I’d run the relevant tests after merging because changes in different places can still affect each other. If the edits overlap and Git can’t combine them, it pauses the merge and marks a conflict. I’d compare the two versions, check the intent with the other developer, and test the resolved file before completing the merge.
+
+## Staging and Committing
+
+### What is the difference between staging and committing?
+
+Staging with `git add` selects the current contents of a file for the next commit. Committing with `git commit` records the staged snapshot in the current branch’s history with a commit message.
+
+I tested this in the onboarding repo by adding this section. After `git add -- git_understanding.md`, `git status` listed the file under **Changes to be committed**. I ran `git reset HEAD -- git_understanding.md`, and the file moved to **Changes not staged for commit**. The text was still in the file, and the latest commit stayed the same through both steps. I staged it again and committed it. The new entry appeared in `git log`, and `git status` showed a clean working tree.
+
+### Why does Git separate these two steps?
+
+The staging area lets me decide what belongs together and review it with `git diff --staged` before recording the commit. If a file contains both a bug fix and an unrelated cleanup, I can use `git add -p` to stage only the parts for the fix. That keeps the commit easier to review.
+
+### When would I stage changes without committing?
+
+I’d stage a fix when I have a candidate ready but still need to review the diff or run tests. If testing shows I need another edit, I can make it and stage the updated version before committing.
